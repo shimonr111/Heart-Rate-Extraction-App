@@ -1,0 +1,65 @@
+/*General CSS*/
+
+#title_label {
+    color: red;
+    font-size: 50px;
+}
+
+/*Login Screen CSS*/
+
+#username_label {
+    font-size: 20px;
+}
+
+#username_input {
+    background-color: yellow;
+}
+
+#password_label {
+    font-size: 20px;
+}
+
+#password_input {
+    background-color: yellow;
+}
+
+/*Menu Screen CSS*/
+
+/*SignUp Screen CSS*/
+#id_label {
+    font-size: 20px;
+}
+
+#id_input {
+    background-color: yellow;
+}
+
+#firstName_label {
+    font-size: 20px;
+}
+
+#firstName_input {
+    background-color: yellow;
+}
+
+#lastName_label {
+    font-size: 20px;
+}
+
+#lastName_input {
+    background-color: yellow;
+}
+
+/*Panel Screen CSS*/
+
+#freq_label {
+    font-size: 20px;
+}
+
+#hr_label {
+    font-size: 20px;
+}
+
+#patientTitle_label {
+    font-size: 30px;
+}

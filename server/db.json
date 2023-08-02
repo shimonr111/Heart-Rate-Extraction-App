@@ -1,0 +1,92 @@
+{
+    "patients": [
+        {
+            "firstName": "John",
+            "id": "1",
+            "lastName": "Doe"
+        },
+        {
+            "firstName": "Jane",
+            "id": "2",
+            "lastName": "Smith"
+        },
+        {
+            "firstName": "leo",
+            "id": "111",
+            "lastName": "messi"
+        },
+        {
+            "firstName": "alexis",
+            "id": "222",
+            "lastName": "sanchez"
+        },
+        {
+            "firstName": "yo",
+            "id": "0000",
+            "lastName": "moo"
+        },
+        {
+            "firstName": "moti",
+            "id": "45678",
+            "lastName": "meler"
+        },
+        {
+            "firstName": "dod",
+            "id": "12",
+            "lastName": "mosh"
+        },
+        {
+            "firstName": "dod",
+            "id": "057",
+            "lastName": "mosh"
+        },
+        {
+            "firstName": "moshe",
+            "id": "333",
+            "lastName": "cohen"
+        }
+    ],
+    "patientsButtons": [
+        {
+            "enabled": "yes",
+            "id": "1"
+        },
+        {
+            "enabled": "yes",
+            "id": "2"
+        },
+        {
+            "enabled": "yes",
+            "id": "3"
+        }
+    ],
+    "patientsInTreatment": [
+        {
+            "firstName": "John",
+            "lastName": "Doe",
+            "patient": "1"
+        },
+        {
+            "firstName": "John",
+            "lastName": "Doe",
+            "patient": "2"
+        },
+        {
+            "firstName": "John",
+            "lastName": "Doe",
+            "patient": "3"
+        }
+    ],
+    "users": [
+        {
+            "loggedIn": "0",
+            "password": "123",
+            "username": "shi"
+        },
+        {
+            "loggedIn": "0",
+            "password": "456",
+            "username": "lio"
+        }
+    ]
+}
