@@ -3,11 +3,14 @@ from PyQt5.QtCore import QFile, QTextStream
 from signupScreen import SignupScreen
 from panelScreen import PanelScreen
 
+
 class MenuScreen(QWidget):
     def __init__(self, app, client):
         super().__init__()
         self.app = app
         self.client = client
+        self.window_signup_screen = None
+        self.window_panel_screen = None
         self.setWindowTitle('Monitoring Heart Rate Application')
         self.resize(1500, 800)  # Set the window size
 
@@ -24,17 +27,17 @@ class MenuScreen(QWidget):
 
         # Sign Up Button
         signup_button = QPushButton('Sign up', self)
-        signup_button.move(660, 200)  # x,y coordinates value from top-left corner
+        signup_button.move(640, 200)  # x,y coordinates value from top-left corner
         signup_button.clicked.connect(self.signup_clicked)
 
         # Patient Control Panel Button
         panel_button = QPushButton('Patient control panel', self)
-        panel_button.move(660, 300)  # x,y coordinates value from top-left corner
+        panel_button.move(640, 300)  # x,y coordinates value from top-left corner
         panel_button.clicked.connect(self.panel_clicked)
 
         # Logout Button
         logout_button = QPushButton('Logout', self)
-        logout_button.move(660, 400)  # x,y coordinates value from top-left corner
+        logout_button.move(640, 400)  # x,y coordinates value from top-left corner
         logout_button.clicked.connect(self.logout_clicked)
 
     # Triggered when signup button pressed
@@ -60,4 +63,3 @@ class MenuScreen(QWidget):
     # Triggered when logout button pressed
     def logout_clicked(self):
         self.close()
-

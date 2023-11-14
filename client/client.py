@@ -3,14 +3,15 @@ import sys
 from PyQt5.QtWidgets import QApplication
 from loginScreen import LoginScreen
 
+
 def main():
-    IP = socket.gethostbyname(socket.gethostname())
-    PORT = 5000
-    ADDR = (IP, PORT)
+    ip = socket.gethostbyname(socket.gethostname())
+    port = 5000
+    addr = (ip, port)
 
     client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(ADDR)
-    print(f"[CONNECTED] Client connected to server at {IP}:{PORT}")
+    client.connect(addr)
+    print(f"[CONNECTED] Client connected to server at {ip}:{port}")
 
     # Create the application
     app = QApplication(sys.argv)
@@ -22,9 +23,10 @@ def main():
     try:
         client.send('DISCONNECT'.encode("utf-8"))
     except socket.error as e:
-        pass
+        print(f"Socket error: {e}")
     finally:
         client.close()
+
 
 if __name__ == "__main__":
     main()

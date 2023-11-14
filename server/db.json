@@ -44,6 +44,16 @@
             "firstName": "moshe",
             "id": "333",
             "lastName": "cohen"
+        },
+        {
+            "firstName": "Shimon",
+            "id": "316325927",
+            "lastName": "Rubin"
+        },
+        {
+            "firstName": "Bibi",
+            "id": "312",
+            "lastName": "Netanyahu"
         }
     ],
     "patientsButtons": [
@@ -62,8 +72,8 @@
     ],
     "patientsInTreatment": [
         {
-            "firstName": "John",
-            "lastName": "Doe",
+            "firstName": "leo",
+            "lastName": "messi",
             "patient": "1"
         },
         {

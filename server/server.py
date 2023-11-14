@@ -1,9 +1,6 @@
 import socket
 import threading
 import json
-import base64
-from PIL import Image
-from io import BytesIO
 
 IP = socket.gethostbyname(socket.gethostname())
 PORT = 5000
@@ -17,6 +14,7 @@ frame2 = 0
 frame3 = 0
 num = "0"
 
+
 def handle_client(conn, addr):
     print(f"[NEW CONNECTION] {addr} connected.", end="")
     global active_client  # Reference the global active_client variable
@@ -27,14 +25,13 @@ def handle_client(conn, addr):
     global frame2
     global frame3
     global num
-
     connected = True
     current_user = None  # Track the current user
 
     # While client is connected to the server
     while connected:
         msg = conn.recv(1024).decode("utf-8")
-        #**************** Queries ****************#
+        # ************************************* Queries ******************************************* #
         # If the user disconnected from the app
         if msg == 'DISCONNECT':
             # Read the updated data from the db.json
@@ -72,9 +69,9 @@ def handle_client(conn, addr):
 
             for user in data['users']:
                 if user['username'] == username and user['password'] == password:
-                    if user['loggedIn'] == "1":
+                    if user['loggedIn'] == "1":  # User already logged in
                         login_successful = "alreadyLoggedIn"
-                    else:
+                    else:  # Login successful
                         login_successful = True
                         user['loggedIn'] = "1"
                         current_user = username  # Set the current user
@@ -105,7 +102,7 @@ def handle_client(conn, addr):
                 id_exist = True
                 conn.send(str(id_exist).encode("utf-8"))
             else:
-                # Update the database with the new patient data
+                # Update the database with the new patient data by adding him to the patients list
                 data['patients'].append(patient_data)
 
                 # Write the updated data back to the db.json file
@@ -147,8 +144,9 @@ def handle_client(conn, addr):
             with open('db.json', 'w') as file:
                 json.dump(data, file, indent=4, sort_keys=True)
 
+        # Query that checks if there is another client on the Panel Screen page
         elif msg == 'ENTER_PANEL_SCREEN':
-            if active_client is None:
+            if active_client is None:  # If there is no one on the panel screen
                 active_client = conn  # Set the current client as the active client
                 # Send the response to the client allowing entry
                 conn.send('ENTRY_ALLOWED'.encode("utf-8"))
@@ -156,6 +154,7 @@ def handle_client(conn, addr):
                 # Send the response to the client denying entry
                 conn.send('ENTRY_DENIED'.encode("utf-8"))
 
+        # Query that indicate that there is no one on the panel screen after navigate from there to another screen
         elif msg == 'LEAVE_PANEL_SCREEN':
             active_client = None  # Reset the active client when they leave the panel screen
 
@@ -171,7 +170,7 @@ def handle_client(conn, addr):
         # Read from the db and send the updated patients that get treatment
         elif msg == 'GET_PATIENTS_IN_TREATMENT_DATA':
             # Read the updated data from the db.json
-             with open('db.json', 'r') as file:
+            with open('db.json', 'r') as file:
                 data = json.load(file)
                 patients = data['patientsInTreatment']
                 json_data = json.dumps(patients)  # Convert to JSON string
@@ -202,7 +201,8 @@ def handle_client(conn, addr):
                 data['patientsInTreatment'][index]['firstName'] = patient_data['firstName']
                 data['patientsInTreatment'][index]['lastName'] = patient_data['lastName']
             else:
-                # If the patient is not found, it's a new patient, so append the new patient data to the "patientsInTreatment" array
+                # If the patient is not found, it's a new patient,
+                # so append the new patient data to the "patientsInTreatment" array
                 data['patientsInTreatment'].append(patient_data)
 
             # Write the updated data back to the db.json file
@@ -237,6 +237,7 @@ def handle_client(conn, addr):
     # If User disconnected, print the updated active connections
     print(f"[ACTIVE CONNECTIONS] {threading.activeCount() - 2}")
 
+
 def main():
     print("[STARTING] Server is starting...")
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -249,6 +250,7 @@ def main():
         thread = threading.Thread(target=handle_client, args=(conn, addr))
         thread.start()
         print(f"\n[ACTIVE CONNECTIONS] {threading.activeCount() - 1}")
+
 
 if __name__ == "__main__":
     main()
