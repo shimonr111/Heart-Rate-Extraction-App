@@ -1,34 +1,47 @@
 import numpy as np
 from scipy.signal import find_peaks
+from scipy.fftpack import fft
 
 
 class ExtractHeartRate:
-    def __init__(self, green_channel, timer):
+    def __init__(self, green_channel):
         self.green_channel = green_channel
-        self.timer = timer
         self.heart_rate = 0
+        self.frequency = 0
 
     def calc_hr_process(self):
-        # Perform FFT on the Green Channel
-        fft_result = np.fft.fft(self.green_channel)
-        fft_result = np.abs(fft_result).flatten()
-        fft_freq = np.fft.fftfreq(len(fft_result))
+        if self.green_channel is None:
+            print("Face did not detected")
+            return 0, 0
+        # Check if the face too close to the camera, or far from the camera, so it won't return good result
+        # Checking it by the shape of the matrix of the forehead (the green channel)
+        if not (48 <= self.green_channel.shape[0] <= 53 or 214 <= self.green_channel.shape[0] <= 221):
+            print("Face is too far/close to the camera")
+            if self.green_channel.shape[0] < 48 or self.green_channel.shape[1] < 214:
+                return 0, 0, "Face is too far from the camera"
+            else:
+                return 0, 0, "Face is too close to the camera"
 
-        # Locate peaks in the necessary frequency range
-        peaks, _ = find_peaks(fft_result, height=0, threshold=0)
+        length_of_green_channel = len(self.green_channel)
+        # The heart rate frequency is typically within the range of 0.75 Hz to 4 Hz.
+        # Therefore, a sampling rate of 30 Hz should be sufficient to capture these frequencies
+        # according to the Nyquist-Shannon sampling theorem
+        sampling_rate = 30
+        # Computes the frequencies corresponding to the signal.
+        frequencies = np.fft.fftfreq(length_of_green_channel, d=1 / sampling_rate)
+        # Filter frequencies between 0.75 Hz and 4 Hz
+        mask = (frequencies >= 0.75) & (frequencies <= 4)
 
-        # Filter peaks within the necessary frequency range
-        valid_peaks = peaks[(fft_freq[peaks] >= 0.48) & (fft_freq[peaks] <= 4)]
+        # The green channel is transformed to the frequency domain by applying FFT
+        fft_result = fft(self.green_channel)
+        # Find the peaks which will contain the indices of the detected peaks in the frequency domain
+        peaks, _ = find_peaks(np.abs(fft_result[mask]).flatten())
 
-        # Count the peaks within a set time range
-        elapsed_time = self.timer.elapsed() / 1000  # Elapsed time in seconds
-        if elapsed_time > 0:
-            # Calculate the peak count within the set time range
-            peak_count = len(valid_peaks)
+        time_range = [15, 30]
+        # The number of peaks is calculated
+        peaks_count = len(peaks) / (time_range[1] - time_range[0])
+        # The heart rate is determined by convert the result to beats per minute
+        self.heart_rate = peaks_count / (time_range[1] - time_range[0]) * 60
+        self.frequency = frequencies[peaks[0]]
 
-            # Calculate the heart rate
-            heart_rate = peak_count * 60 / elapsed_time  # Convert to BPM using elapsed time
-            self.heart_rate = round(heart_rate)
-        else:
-            self.heart_rate = 0
-        return self.heart_rate
+        return round(self.heart_rate, 3), round(self.frequency, 3), None

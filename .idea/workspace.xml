@@ -6,15 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="cf4f882d-5938-47c6-884b-09ab754d91dc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/client.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/loginScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/loginScreen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/menuScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/menuScreen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/panelScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/panelScreen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/signupScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/signupScreen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/extractHeartRate.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/extractHeartRate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/specificPatientScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/specificPatientScreen.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/db.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/server/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/videoProcessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/videoProcessor.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +42,7 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
-  <component name="RunManager" selected="Python.client (1)">
+  <component name="RunManager">
     <configuration name="client (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="finalProject" />
       <option name="INTERPRETER_OPTIONS" value="" />

@@ -1,6 +1,7 @@
 import cv2
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import Qt
+import numpy as np
 
 
 class VideoProcessor:
@@ -8,6 +9,7 @@ class VideoProcessor:
         self.capture = capture
         self.video_window = video_window
         self.green_channel = None
+        self.green_channel_matrix = None
 
     def update_video_feed(self):
         ret, frame = self.capture.read()
@@ -29,6 +31,12 @@ class VideoProcessor:
                 forehead = frame[forehead_y:forehead_y + forehead_h, forehead_x:forehead_x + forehead_w]
                 self.green_channel = forehead[:, :, 1]
 
+                # Remove the unnecessary rows and columns that contain 0
+                green_channel_array = np.array(self.green_channel)
+                zero_rows = np.all(green_channel_array == 0, axis=1)
+                zero_columns = np.all(green_channel_array == 0, axis=0)
+                self.green_channel_matrix = green_channel_array[~zero_rows][:, ~zero_columns]
+
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
             image = QImage(
@@ -49,4 +57,4 @@ class VideoProcessor:
             self.video_window.setPixmap(pixmap)
 
     def get_green_channel(self):
-        return self.green_channel
+        return self.green_channel_matrix

@@ -3,7 +3,6 @@ import json
 import os
 from PyQt5.QtWidgets import QLabel, QWidget, QPushButton, QComboBox, QFileDialog, QMessageBox
 from PyQt5.QtCore import QFile, QTextStream, QTimer
-from PyQt5.QtCore import QElapsedTimer
 from PIL import Image
 
 
@@ -37,6 +36,12 @@ class SpecificPatientScreen(QWidget):
         self.hr_label.setObjectName('hr_label')  # set object name for using it in the css file
         self.hr_label.setFixedSize(400, 40)  # Adjust width and height accordingly
 
+        # Error of face detection label
+        self.face_detect_error_label = QLabel('', self)
+        self.face_detect_error_label.move(140, 450)  # x,y coordinates value from top-left corner
+        self.face_detect_error_label.setObjectName('face_detect_error_label')  # set object name for using it in css
+        self.face_detect_error_label.setFixedSize(400, 40)  # Adjust width and height accordingly
+
         # Combo box for choosing Live or captured video
         self.video_combo_box = QComboBox(self)
         self.video_combo_box.addItem("Video")
@@ -60,6 +65,7 @@ class SpecificPatientScreen(QWidget):
         self.stop_button.move(580, 500)  # x,y coordinates value from top-left corner
         self.stop_button.clicked.connect(self.stop_clicked)
         self.stop_button.setObjectName('smaller_button')  # set object name for using it in the css file
+        self.stop_button.setEnabled(False)  # Disable the stop button
 
         # Back button
         self.back_button = QPushButton('Back', self)
@@ -95,7 +101,7 @@ class SpecificPatientScreen(QWidget):
         self.green_channel = None
         self.fft_peaks = []
         self.heart_rate = 0
-        self.timer_for_hr_calc = QElapsedTimer()
+        self.frequency = 0
 
         # Timer to update heart rate label and db every second (set the interval when start the timer)
         self.update_heart_rate_label_and_db_timer = QTimer(self)
@@ -135,8 +141,13 @@ class SpecificPatientScreen(QWidget):
 
     # Handle combo box selection change
     def combo_box_changed(self, index):
+        if index == 0:  # Captured video selected
+            self.timer_for_update_video_feed.stop()  # Stop calling update_video_feed()
+            self.video_window.clear()  # Clear the window that containing the frames
+            self.open_button.setEnabled(True)  # Enable the open button
         if index == 1:  # Webcam option selected
-            self.open_button.setDisabled(True)  # Disable the open button for recorded video
+            self.open_button.setEnabled(False)  # Disable the open button for recorded video
+            self.video_window.clear()  # Clear the window that containing the frames
             self.display_video_feed()  # Begin to display the video feed
 
     # Start video feed (webcam or captured video)
@@ -174,6 +185,7 @@ class SpecificPatientScreen(QWidget):
         self.video_combo_box.setEnabled(False)  # Disable the combo box
         self.open_button.setEnabled(False)  # Disable the open button
         self.back_button.setEnabled(False)  # Disable the back button
+        self.stop_button.setEnabled(True)  # Enable the stop button
 
         # Capture the picture of the patient and store it in the server
         if not self.picture_captured:
@@ -181,9 +193,8 @@ class SpecificPatientScreen(QWidget):
             self.picture_captured = True  # After capturing the first pic, it will not take pic again
 
         if self.green_channel is not None:
-            self.timer_for_hr_calc.start()  # QElapsed timer, used in the process of Extract the HR
-            # Update heart rate every second - Activate update_heart_rate() function
-            self.update_heart_rate_label_and_db_timer.start(1000)
+            # Update heart rate every 3 seconds - Activate update_heart_rate() function
+            self.update_heart_rate_label_and_db_timer.start(3000)
 
     # Stop button clicked
     def stop_clicked(self):
@@ -199,6 +210,7 @@ class SpecificPatientScreen(QWidget):
         self.video_window.clear()  # Clear the window that contain the frames
         self.picture_captured = False  # After delete image, if start again it will take pic patient again
         self.hr_label.setText("Heart rate: " + str(0))  # Display the label of the hr as 0
+        self.stop_button.setEnabled(False)  # Disable the stop button
         # Update the hr in the DB to 0 because stop button pressed
         data = {
             "heart_rate": 0,
@@ -210,11 +222,12 @@ class SpecificPatientScreen(QWidget):
 
     # Update the heart rate label
     def update_heart_rate(self):
-        result = self.calculate_heart_rate()  # Receive the calculated hr from the instance of ExtractHeartRate
-        self.hr_label.setText("Heart rate: " + str(result))  # Display the hr in the label
+        hr_result, freq_result = self.calculate_heart_rate()  # Receive hr & freq from instance of ExtractHeartRate
+        self.hr_label.setText("Heart rate: " + str(hr_result))  # Display the hr in the label
+        self.freq_label.setText("Frequency: " + str(freq_result))  # Display the frequency in the label
         # Send the updated heart rate to the server side
         data = {
-            "heart_rate": result,
+            "heart_rate": hr_result,
             "num": self.patient
         }
         json_data = json.dumps(data)
@@ -224,9 +237,13 @@ class SpecificPatientScreen(QWidget):
     # Calculate the heart rate based on the green channel
     def calculate_heart_rate(self):
         from extractHeartRate import ExtractHeartRate
-        extract_hr_instance = ExtractHeartRate(self.green_channel, self.timer_for_hr_calc)  # Create new instance
-        self.heart_rate = extract_hr_instance.calc_hr_process()  # Extracting the hr by the process
-        return self.heart_rate  # Return the result of the calculated hr
+        extract_hr_instance = ExtractHeartRate(self.green_channel)
+        self.heart_rate, self.frequency, error_label = extract_hr_instance.calc_hr_process()
+        if error_label is not None:  # The face is too close to the camera / far from the camera
+            self.face_detect_error_label.setText(str(error_label))  # Display the error label
+        else:
+            self.face_detect_error_label.setText('')  # There is no error so delete it
+        return self.heart_rate, self.frequency  # Return the results of the calculated hr and frequency
 
     # Update button state in JSON data base
     def update_button_state_in_db(self, patient_id, enabled):
