@@ -72,18 +72,18 @@
     ],
     "patientsInTreatment": [
         {
-            "firstName": "leo",
-            "lastName": "messi",
+            "firstName": "dod",
+            "lastName": "mosh",
             "patient": "1"
         },
         {
-            "firstName": "John",
-            "lastName": "Doe",
+            "firstName": "Bibi",
+            "lastName": "Netanyahu",
             "patient": "2"
         },
         {
-            "firstName": "John",
-            "lastName": "Doe",
+            "firstName": "alexis",
+            "lastName": "sanchez",
             "patient": "3"
         }
     ],

@@ -8,8 +8,7 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/extractHeartRate.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/extractHeartRate.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/specificPatientScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/specificPatientScreen.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/client/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/videoProcessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/videoProcessor.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/db.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

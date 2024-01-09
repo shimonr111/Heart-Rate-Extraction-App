@@ -11,13 +11,11 @@ class ExtractHeartRate:
 
     def calc_hr_process(self):
         if self.green_channel is None:
-            print("Face did not detected")
-            return 0, 0
+            return 0, 0, "Face did not detected"
         # Check if the face too close to the camera, or far from the camera, so it won't return good result
         # Checking it by the shape of the matrix of the forehead (the green channel)
-        if not (48 <= self.green_channel.shape[0] <= 53 or 214 <= self.green_channel.shape[0] <= 221):
-            print("Face is too far/close to the camera")
-            if self.green_channel.shape[0] < 48 or self.green_channel.shape[1] < 214:
+        if not (47 <= self.green_channel.shape[0] <= 54 or 213 <= self.green_channel.shape[0] <= 222):
+            if self.green_channel.shape[0] < 47 or self.green_channel.shape[1] < 213:
                 return 0, 0, "Face is too far from the camera"
             else:
                 return 0, 0, "Face is too close to the camera"

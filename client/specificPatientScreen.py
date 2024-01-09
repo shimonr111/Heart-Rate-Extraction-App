@@ -1,9 +1,10 @@
 import cv2
 import json
 import os
-from PyQt5.QtWidgets import QLabel, QWidget, QPushButton, QComboBox, QFileDialog, QMessageBox
+from PyQt5.QtWidgets import QLabel, QWidget, QPushButton, QComboBox, QFileDialog, QMessageBox, QVBoxLayout
 from PyQt5.QtCore import QFile, QTextStream, QTimer
 from PIL import Image
+from hr_plotter import HRPlotter
 
 
 class SpecificPatientScreen(QWidget):
@@ -59,6 +60,7 @@ class SpecificPatientScreen(QWidget):
         self.start_button.move(450, 500)  # x,y coordinates value from top-left corner
         self.start_button.clicked.connect(self.start_clicked)
         self.start_button.setObjectName('smaller_button')  # set object name for using it in the css file
+        self.start_button.setDisabled(True)  # Disable the start button
 
         # Stop button to stop extracting the HR
         self.stop_button = QPushButton('Stop', self)
@@ -74,32 +76,28 @@ class SpecificPatientScreen(QWidget):
         self.back_button.setObjectName('back_button')  # set object name for using it in the css file
 
         # Create a window to display the HR
-        self.hr_window = QLabel(self)
-        self.hr_window.move(1000, 80)
-        self.hr_window.setFixedSize(150, 150)
+        self.hr_window = QWidget(self)
+        self.hr_window.setGeometry(850, 10, 300, 230)
         self.hr_window.setStyleSheet("border: 2px solid black;")
+        self.layout_hr_window = QVBoxLayout(self.hr_window)
 
         # Create a window to display the FFT Signals
         self.fft_window = QLabel(self)
-        self.fft_window.move(1000, 300)
-        self.fft_window.setFixedSize(300, 150)
+        self.fft_window.setGeometry(850, 280, 300, 230)
         self.fft_window.setStyleSheet("border: 2px solid black;")
 
         # Create a window to display the RGB Signals
         self.rgb_window = QLabel(self)
-        self.rgb_window.move(1000, 480)
-        self.rgb_window.setFixedSize(300, 150)
+        self.rgb_window.setGeometry(850, 550, 300, 230)
         self.rgb_window.setStyleSheet("border: 2px solid black;")
 
         # Create a window to display the video
         self.video_window = QLabel(self)
-        self.video_window.move(140, 50)
-        self.video_window.setFixedSize(500, 400)
+        self.video_window.setGeometry(140, 50, 500, 400)
         self.video_window.setStyleSheet("border: 2px solid black;")
 
         # Heart rate calculation variables
         self.green_channel = None
-        self.fft_peaks = []
         self.heart_rate = 0
         self.frequency = 0
 
@@ -114,6 +112,9 @@ class SpecificPatientScreen(QWidget):
         self.video_combo_box.currentIndexChanged.connect(self.combo_box_changed)
         # Set fixed size based on the button size hint
         self.video_combo_box.setFixedSize(self.open_button.sizeHint())
+
+        # Create an instance of HRPlotter
+        self.hr_plotter = HRPlotter(self.hr_window, self.layout_hr_window)
 
     # Go back to the previous window
     def back_clicked(self):
@@ -145,10 +146,12 @@ class SpecificPatientScreen(QWidget):
             self.timer_for_update_video_feed.stop()  # Stop calling update_video_feed()
             self.video_window.clear()  # Clear the window that containing the frames
             self.open_button.setEnabled(True)  # Enable the open button
+            self.start_button.setDisabled(True)  # Disable the start button
         if index == 1:  # Webcam option selected
             self.open_button.setEnabled(False)  # Disable the open button for recorded video
             self.video_window.clear()  # Clear the window that containing the frames
             self.display_video_feed()  # Begin to display the video feed
+            self.start_button.setEnabled(True)  # Enable the start button
 
     # Start video feed (webcam or captured video)
     def display_video_feed(self, file_path=None):
@@ -178,6 +181,7 @@ class SpecificPatientScreen(QWidget):
                                                    options=options)
         if file_path:
             self.display_video_feed(file_path)  # Displaying the video feed of this recorded video
+            self.start_button.setEnabled(True)  # Enable the start button
 
     # Start button clicked
     def start_clicked(self):
@@ -211,6 +215,8 @@ class SpecificPatientScreen(QWidget):
         self.picture_captured = False  # After delete image, if start again it will take pic patient again
         self.hr_label.setText("Heart rate: " + str(0))  # Display the label of the hr as 0
         self.stop_button.setEnabled(False)  # Disable the stop button
+        self.start_button.setEnabled(False)  # Disable the start button
+        self.open_button.setEnabled(False)  # Disable the open button
         # Update the hr in the DB to 0 because stop button pressed
         data = {
             "heart_rate": 0,
@@ -225,6 +231,10 @@ class SpecificPatientScreen(QWidget):
         hr_result, freq_result = self.calculate_heart_rate()  # Receive hr & freq from instance of ExtractHeartRate
         self.hr_label.setText("Heart rate: " + str(hr_result))  # Display the hr in the label
         self.freq_label.setText("Frequency: " + str(freq_result))  # Display the frequency in the label
+
+        # Update the dynamic HR signal plot using HRPlotter
+        self.hr_plotter.update_hr_plot(hr_result)
+
         # Send the updated heart rate to the server side
         data = {
             "heart_rate": hr_result,
