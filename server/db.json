@@ -3,7 +3,7 @@
         {
             "firstName": "John",
             "id": "1",
-            "lastName": "Doe"
+            "lastName": "Cohen"
         },
         {
             "firstName": "Jane",
@@ -19,46 +19,11 @@
             "firstName": "alexis",
             "id": "222",
             "lastName": "sanchez"
-        },
-        {
-            "firstName": "yo",
-            "id": "0000",
-            "lastName": "moo"
-        },
-        {
-            "firstName": "moti",
-            "id": "45678",
-            "lastName": "meler"
-        },
-        {
-            "firstName": "dod",
-            "id": "12",
-            "lastName": "mosh"
-        },
-        {
-            "firstName": "dod",
-            "id": "057",
-            "lastName": "mosh"
-        },
-        {
-            "firstName": "moshe",
-            "id": "333",
-            "lastName": "cohen"
-        },
-        {
-            "firstName": "Shimon",
-            "id": "316325927",
-            "lastName": "Rubin"
-        },
-        {
-            "firstName": "Bibi",
-            "id": "312",
-            "lastName": "Netanyahu"
         }
     ],
     "patientsButtons": [
         {
-            "enabled": "yes",
+            "enabled": "no",
             "id": "1"
         },
         {
@@ -72,8 +37,8 @@
     ],
     "patientsInTreatment": [
         {
-            "firstName": "dod",
-            "lastName": "mosh",
+            "firstName": "John",
+            "lastName": "Doe",
             "patient": "1"
         },
         {

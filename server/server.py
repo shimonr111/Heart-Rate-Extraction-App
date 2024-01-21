@@ -82,6 +82,23 @@ def handle_client(conn, addr):
             # Send the login result to the client
             conn.send(str(login_successful).encode("utf-8"))
 
+        # Update DB with updated patients list
+        elif msg == 'UPDATE_PATIENTS_REQUEST':
+            # Read the updated data from the db.json
+            with open('db.json', 'r') as file:
+                data = json.load(file)
+
+            # Receive the patient data from the client
+            patients_data = conn.recv(1024).decode("utf-8")
+            patients_data = json.loads(patients_data)
+
+            # Update the database with the updated patients list
+            data['patients'] = patients_data
+
+            # Write the updated data back to the db.json file
+            with open('db.json', 'w') as file:
+                json.dump(data, file, indent=4, sort_keys=True)
+
         # Update the DB with new patient
         elif msg == 'ADD_PATIENT_REQUEST':
             # Read the updated data from the db.json

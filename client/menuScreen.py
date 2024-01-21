@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QLabel, QWidget, QPushButton, QMessageBox
 from PyQt5.QtCore import QFile, QTextStream
 from signupScreen import SignupScreen
+from manageUsersScreen import ManageUsersScreen
 from panelScreen import PanelScreen
 
 
@@ -10,6 +11,7 @@ class MenuScreen(QWidget):
         self.app = app
         self.client = client
         self.window_signup_screen = None
+        self.window_manage_users_screen = None
         self.window_panel_screen = None
         self.setWindowTitle('Monitoring Heart Rate Application')
         self.resize(1500, 800)  # Set the window size
@@ -30,20 +32,31 @@ class MenuScreen(QWidget):
         signup_button.move(640, 200)  # x,y coordinates value from top-left corner
         signup_button.clicked.connect(self.signup_clicked)
 
+        # Manage users Button
+        manage_users_button = QPushButton('Manage users', self)
+        manage_users_button.move(640, 300)  # x,y coordinates value from top-left corner
+        manage_users_button.clicked.connect(self.manage_users_clicked)
+
         # Patient Control Panel Button
         panel_button = QPushButton('Patient control panel', self)
-        panel_button.move(640, 300)  # x,y coordinates value from top-left corner
+        panel_button.move(640, 400)  # x,y coordinates value from top-left corner
         panel_button.clicked.connect(self.panel_clicked)
 
         # Logout Button
         logout_button = QPushButton('Logout', self)
-        logout_button.move(640, 400)  # x,y coordinates value from top-left corner
+        logout_button.move(640, 500)  # x,y coordinates value from top-left corner
         logout_button.clicked.connect(self.logout_clicked)
 
     # Triggered when signup button pressed
     def signup_clicked(self):
         self.window_signup_screen = SignupScreen(self.app, self.client)
         self.window_signup_screen.show()
+        self.hide()
+
+    # Triggered when signup button pressed
+    def manage_users_clicked(self):
+        self.window_manage_users_screen = ManageUsersScreen(self.app, self.client)
+        self.window_manage_users_screen.show()
         self.hide()
 
     # Triggered when patient control panel button pressed
