@@ -1,7 +1,6 @@
 import cv2
 from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import Qt
-import numpy as np
 
 
 class VideoProcessor:
@@ -20,22 +19,16 @@ class VideoProcessor:
             faces = face_cascade.detectMultiScale(frame_gray, scaleFactor=1.3, minNeighbors=5)
 
             for (x, y, w, h) in faces:
-                forehead_x = x
-                forehead_y = y
-                forehead_w = w
-                forehead_h = int(h * 0.25)
+                forehead_x = x+20
+                forehead_y = y+10
+                forehead_w = w-60
+                forehead_h = int(h * 0.15)
 
                 cv2.rectangle(frame, (forehead_x, forehead_y), (forehead_x + forehead_w, forehead_y + forehead_h),
                               (0, 0, 255), 2)
 
                 forehead = frame[forehead_y:forehead_y + forehead_h, forehead_x:forehead_x + forehead_w]
                 self.green_channel = forehead[:, :, 1]
-
-                # Remove the unnecessary rows and columns that contain 0
-                green_channel_array = np.array(self.green_channel)
-                zero_rows = np.all(green_channel_array == 0, axis=1)
-                zero_columns = np.all(green_channel_array == 0, axis=0)
-                self.green_channel_matrix = green_channel_array[~zero_rows][:, ~zero_columns]
 
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
@@ -57,4 +50,4 @@ class VideoProcessor:
             self.video_window.setPixmap(pixmap)
 
     def get_green_channel(self):
-        return self.green_channel_matrix
+        return self.green_channel

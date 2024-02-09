@@ -5,6 +5,8 @@ from PyQt5.QtWidgets import QLabel, QWidget, QPushButton, QComboBox, QFileDialog
 from PyQt5.QtCore import QFile, QTextStream, QTimer
 from PIL import Image
 from hr_plotter import HRPlotter
+from bin_plotter import BINPlotter
+import numpy as np
 
 
 class SpecificPatientScreen(QWidget):
@@ -82,14 +84,10 @@ class SpecificPatientScreen(QWidget):
         self.layout_hr_window = QVBoxLayout(self.hr_window)
 
         # Create a window to display the FFT Signals
-        self.fft_window = QLabel(self)
-        self.fft_window.setGeometry(850, 280, 300, 230)
-        self.fft_window.setStyleSheet("border: 2px solid black;")
-
-        # Create a window to display the RGB Signals
-        self.rgb_window = QLabel(self)
-        self.rgb_window.setGeometry(850, 550, 300, 230)
-        self.rgb_window.setStyleSheet("border: 2px solid black;")
+        self.bin_window = QWidget(self)
+        self.bin_window.setGeometry(750, 300, 700, 400)
+        self.bin_window.setStyleSheet("border: 2px solid black;")
+        self.layout_bin_window = QVBoxLayout(self.bin_window)
 
         # Create a window to display the video
         self.video_window = QLabel(self)
@@ -98,8 +96,11 @@ class SpecificPatientScreen(QWidget):
 
         # Heart rate calculation variables
         self.green_channel = None
+        self.list_green_channel_avg = [0.0] * 512
+        self.counter_for_list = 0
         self.heart_rate = 0
         self.frequency = 0
+        self.sampling_rate = 0
 
         # Timer to update heart rate label and db every second (set the interval when start the timer)
         self.update_heart_rate_label_and_db_timer = QTimer(self)
@@ -115,6 +116,8 @@ class SpecificPatientScreen(QWidget):
 
         # Create an instance of HRPlotter
         self.hr_plotter = HRPlotter(self.hr_window, self.layout_hr_window)
+        # Create an instance of BINPlotter
+        self.bin_plotter = BINPlotter(self.bin_window, self.layout_bin_window)
 
     # Go back to the previous window
     def back_clicked(self):
@@ -157,10 +160,11 @@ class SpecificPatientScreen(QWidget):
     def display_video_feed(self, file_path=None):
         if file_path is None:  # If there is no file, so it means its webcam
             self.capture = cv2.VideoCapture(0)
+            self.sampling_rate = self.capture.get(cv2.CAP_PROP_FPS)
         else:
             self.capture = cv2.VideoCapture(file_path)
-        # Activate update_video_feed() function with an interval of 30 milliseconds
-        self.timer_for_update_video_feed.start(30)
+        # Activate update_video_feed() function with an interval of 30 millisecond / called 33 times in sec
+        self.timer_for_update_video_feed.start(self.sampling_rate)
 
     # Update the video feed
     def update_video_feed(self):
@@ -171,6 +175,9 @@ class SpecificPatientScreen(QWidget):
         video_processor_instance.update_video_feed()
         # Get the green channel values in order to extract the hr later
         self.green_channel = video_processor_instance.get_green_channel()
+        index = self.counter_for_list % 300
+        self.list_green_channel_avg[index] = float(np.mean(self.green_channel))
+        self.counter_for_list += 1
 
     # Open button clicked for recorded video
     def open_clicked(self):
@@ -198,7 +205,7 @@ class SpecificPatientScreen(QWidget):
 
         if self.green_channel is not None:
             # Update heart rate every 3 seconds - Activate update_heart_rate() function
-            self.update_heart_rate_label_and_db_timer.start(3000)
+            self.update_heart_rate_label_and_db_timer.start(1000)
 
     # Stop button clicked
     def stop_clicked(self):
@@ -228,27 +235,32 @@ class SpecificPatientScreen(QWidget):
 
     # Update the heart rate label
     def update_heart_rate(self):
-        hr_result, freq_result = self.calculate_heart_rate()  # Receive hr & freq from instance of ExtractHeartRate
-        self.hr_label.setText("Heart rate: " + str(hr_result))  # Display the hr in the label
-        self.freq_label.setText("Frequency: " + str(freq_result))  # Display the frequency in the label
+        print(self.counter_for_list)
+        if self.counter_for_list >= 300:
+            hr_result, freq_result = self.calculate_heart_rate()  # Receive hr & freq from instance of ExtractHeartRate
+            self.hr_label.setText("Heart rate: " + str(hr_result))  # Display the hr in the label
+            self.freq_label.setText("Frequency: " + str(freq_result))  # Display the frequency in the label
+            # Update the dynamic HR signal plot using HRPlotter
+            self.hr_plotter.update_hr_plot(hr_result)
 
-        # Update the dynamic HR signal plot using HRPlotter
-        self.hr_plotter.update_hr_plot(hr_result)
-
-        # Send the updated heart rate to the server side
-        data = {
-            "heart_rate": hr_result,
-            "num": self.patient
-        }
-        json_data = json.dumps(data)
-        self.client.send('HEART_RATE_UPDATE'.encode("utf-8"))
-        self.client.send(json_data.encode("utf-8"))
+            # Send the updated heart rate to the server side
+            data = {
+                "heart_rate": hr_result,
+                "num": self.patient
+            }
+            json_data = json.dumps(data)
+            self.client.send('HEART_RATE_UPDATE'.encode("utf-8"))
+            self.client.send(json_data.encode("utf-8"))
 
     # Calculate the heart rate based on the green channel
     def calculate_heart_rate(self):
         from extractHeartRate import ExtractHeartRate
+        copied_list = list(self.list_green_channel_avg)
         extract_hr_instance = ExtractHeartRate(self.green_channel)
-        self.heart_rate, self.frequency, error_label = extract_hr_instance.calc_hr_process()
+        self.heart_rate, self.frequency, error_label = extract_hr_instance.calc_hr_process(copied_list,
+                                                                                           self.sampling_rate,
+                                                                                           300,
+                                                                                           self.bin_plotter)
         if error_label is not None:  # The face is too close to the camera / far from the camera
             self.face_detect_error_label.setText(str(error_label))  # Display the error label
         else:
