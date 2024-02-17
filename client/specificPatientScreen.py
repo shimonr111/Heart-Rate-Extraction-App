@@ -119,6 +119,8 @@ class SpecificPatientScreen(QWidget):
         # Create an instance of BINPlotter
         self.bin_plotter = BINPlotter(self.bin_window, self.layout_bin_window)
 
+        self.flag_for_file_path = False
+
     # Go back to the previous window
     def back_clicked(self):
         if self.capture is not None:
@@ -151,18 +153,21 @@ class SpecificPatientScreen(QWidget):
             self.open_button.setEnabled(True)  # Enable the open button
             self.start_button.setDisabled(True)  # Disable the start button
         if index == 1:  # Webcam option selected
-            self.open_button.setEnabled(False)  # Disable the open button for recorded video
+            self.timer_for_update_video_feed.stop()  # Stop calling update_video_feed()
             self.video_window.clear()  # Clear the window that containing the frames
+            self.open_button.setEnabled(False)  # Disable the open button for recorded video
             self.display_video_feed()  # Begin to display the video feed
             self.start_button.setEnabled(True)  # Enable the start button
+            self.flag_for_file_path = False
 
     # Start video feed (webcam or captured video)
     def display_video_feed(self, file_path=None):
         if file_path is None:  # If there is no file, so it means its webcam
             self.capture = cv2.VideoCapture(0)
-            self.sampling_rate = self.capture.get(cv2.CAP_PROP_FPS)
         else:
             self.capture = cv2.VideoCapture(file_path)
+
+        self.sampling_rate = self.capture.get(cv2.CAP_PROP_FPS)
         # Activate update_video_feed() function with an interval of 30 millisecond / called 33 times in sec
         self.timer_for_update_video_feed.start(self.sampling_rate)
 
@@ -170,14 +175,19 @@ class SpecificPatientScreen(QWidget):
     def update_video_feed(self):
         from videoProcessor import VideoProcessor
         # Create new instance of the video processor class
-        video_processor_instance = VideoProcessor(self.capture, self.video_window)
+        video_processor_instance = VideoProcessor(self.capture, self.video_window, self.flag_for_file_path)
         # Call the update_video_feed method to process the frames from the video and detect the forehead
         video_processor_instance.update_video_feed()
         # Get the green channel values in order to extract the hr later
         self.green_channel = video_processor_instance.get_green_channel()
-        index = self.counter_for_list % 300
-        self.list_green_channel_avg[index] = float(np.mean(self.green_channel))
-        self.counter_for_list += 1
+        # Check if self.green_channel is not None before using it
+        if self.green_channel is not None:
+            index = self.counter_for_list % 300
+            self.list_green_channel_avg[index] = float(np.mean(self.green_channel))
+            self.counter_for_list += 1
+        else:
+            # Handle the case when self.green_channel is None
+            print("Face did not detected")
 
     # Open button clicked for recorded video
     def open_clicked(self):
@@ -187,6 +197,7 @@ class SpecificPatientScreen(QWidget):
         file_path, _ = QFileDialog.getOpenFileName(self, "Open Video File", "", "Video Files (*.mp4 *.avi *.mov)",
                                                    options=options)
         if file_path:
+            self.flag_for_file_path = True
             self.display_video_feed(file_path)  # Displaying the video feed of this recorded video
             self.start_button.setEnabled(True)  # Enable the start button
 

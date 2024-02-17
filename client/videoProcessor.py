@@ -4,11 +4,11 @@ from PyQt5.QtCore import Qt
 
 
 class VideoProcessor:
-    def __init__(self, capture, video_window):
+    def __init__(self, capture, video_window, flag_for_file_path):
         self.capture = capture
         self.video_window = video_window
         self.green_channel = None
-        self.green_channel_matrix = None
+        self.flag_for_file_path = flag_for_file_path
 
     def update_video_feed(self):
         ret, frame = self.capture.read()
@@ -19,10 +19,16 @@ class VideoProcessor:
             faces = face_cascade.detectMultiScale(frame_gray, scaleFactor=1.3, minNeighbors=5)
 
             for (x, y, w, h) in faces:
-                forehead_x = x+20
-                forehead_y = y+10
-                forehead_w = w-60
-                forehead_h = int(h * 0.15)
+                if self.flag_for_file_path:  # For recorded video
+                    forehead_x = x + 70
+                    forehead_y = y + 30
+                    forehead_w = w - 130
+                    forehead_h = int(h * 0.11)
+                else:                        # For webcam
+                    forehead_x = x + 60
+                    forehead_y = y + 10
+                    forehead_w = w - 120
+                    forehead_h = int(h * 0.14)
 
                 cv2.rectangle(frame, (forehead_x, forehead_y), (forehead_x + forehead_w, forehead_y + forehead_h),
                               (0, 0, 255), 2)
