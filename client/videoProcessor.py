@@ -27,8 +27,8 @@ class VideoProcessor:
                 else:                        # For webcam
                     forehead_x = x + 60
                     forehead_y = y + 10
-                    forehead_w = w - 120
-                    forehead_h = int(h * 0.14)
+                    forehead_w = w - 100
+                    forehead_h = int(h * 0.16)
 
                 cv2.rectangle(frame, (forehead_x, forehead_y), (forehead_x + forehead_w, forehead_y + forehead_h),
                               (0, 0, 255), 2)

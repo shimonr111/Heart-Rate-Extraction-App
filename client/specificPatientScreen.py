@@ -97,6 +97,7 @@ class SpecificPatientScreen(QWidget):
         # Heart rate calculation variables
         self.green_channel = None
         self.list_green_channel_avg = [0.0] * 512
+        self.previous_list_counter = 0
         self.counter_for_list = 0
         self.heart_rate = 0
         self.frequency = 0
@@ -168,8 +169,8 @@ class SpecificPatientScreen(QWidget):
             self.capture = cv2.VideoCapture(file_path)
 
         self.sampling_rate = self.capture.get(cv2.CAP_PROP_FPS)
-        # Activate update_video_feed() function with an interval of 30 millisecond / called 33 times in sec
-        self.timer_for_update_video_feed.start(self.sampling_rate)
+        # Activate update_video_feed() every 1 Millisecond
+        self.timer_for_update_video_feed.start(1)
 
     # Update the video feed
     def update_video_feed(self):
@@ -183,7 +184,11 @@ class SpecificPatientScreen(QWidget):
         # Check if self.green_channel is not None before using it
         if self.green_channel is not None:
             index = self.counter_for_list % 300
-            self.list_green_channel_avg[index] = float(np.mean(self.green_channel))
+            # Convert the matrix to a NumPy array
+            matrix_array = np.array(self.green_channel)
+            # Calculate the median along a specific axis (axis= None calculates the overall median)
+            median_value = np.median(matrix_array, axis=None)
+            self.list_green_channel_avg[index] = float(median_value)
             self.counter_for_list += 1
         else:
             # Handle the case when self.green_channel is None
@@ -215,7 +220,7 @@ class SpecificPatientScreen(QWidget):
             self.picture_captured = True  # After capturing the first pic, it will not take pic again
 
         if self.green_channel is not None:
-            # Update heart rate every 3 seconds - Activate update_heart_rate() function
+            # Update heart rate every 1 second - Activate update_heart_rate() function
             self.update_heart_rate_label_and_db_timer.start(1000)
 
     # Stop button clicked
@@ -246,7 +251,6 @@ class SpecificPatientScreen(QWidget):
 
     # Update the heart rate label
     def update_heart_rate(self):
-        print(self.counter_for_list)
         if self.counter_for_list >= 300:
             hr_result, freq_result = self.calculate_heart_rate()  # Receive hr & freq from instance of ExtractHeartRate
             self.hr_label.setText("Heart rate: " + str(hr_result))  # Display the hr in the label
@@ -268,8 +272,9 @@ class SpecificPatientScreen(QWidget):
         from extractHeartRate import ExtractHeartRate
         copied_list = list(self.list_green_channel_avg)
         extract_hr_instance = ExtractHeartRate(self.green_channel)
+        self.sampling_rate = self.counter_for_list - self.previous_list_counter
         self.heart_rate, self.frequency, error_label = extract_hr_instance.calc_hr_process(copied_list,
-                                                                                           self.sampling_rate,
+                                                                                           10,
                                                                                            300,
                                                                                            self.bin_plotter)
         if error_label is not None:  # The face is too close to the camera / far from the camera

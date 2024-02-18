@@ -9,50 +9,65 @@ class ExtractHeartRate:
         self.heart_rate = 0
         self.frequency = 0
 
+    def low_pass_filter(self, raw_padded_list, list_size_without_padding):
+        for i in range(list_size_without_padding - 2):
+            window = raw_padded_list[i:i + 3]
+            average = sum(window) / 3.0
+            raw_padded_list[i] = average
+        raw_padded_list[list_size_without_padding - 2] = 0
+        raw_padded_list[list_size_without_padding - 1] = 0
+
+    def high_pass_filter(self,  raw_padded_list, list_size_without_padding):
+        for i in range(0, list_size_without_padding - 30, 30):
+            window = raw_padded_list[i:i + 30]
+            average = sum(window) / 30.0
+            for j in range(30):
+                raw_padded_list[i+j] -= average
+
     def calc_hr_process(self, padded_list, sampling_rate, list_size_without_padding, bin_plotter):
         if self.green_channel is None:
             return 0, 0, "Face did not detected"
+        
+        #run low pass filter
+        self.low_pass_filter(padded_list, list_size_without_padding)
+        #run high pass filter
+        self.high_pass_filter(padded_list, list_size_without_padding)
 
-        # padded_list_for_debug = list(data_list)
-        # list_size_without_padding_for_debug = 256-18
-        # sample_average = np.sum(padded_list_for_debug) / list_size_without_padding_for_debug
-        # padded_list_for_debug[:list_size_without_padding_for_debug] -= sample_average
-        # fourier = np.fft.fft(padded_list_for_debug)
-        # fourier_abs_values = np.absolute(fourier)
-        # bin_plotter.update_bin_plot(fourier_abs_values)
-        # length_of_padded_list = len(padded_list_for_debug)
-        #
-        # max_value = float('-inf')
-        # max_index = -1
-        #
-        # # Loop through the first half of the array to find max index of the max value
-        # for i in range(7, round(list_size_without_padding_for_debug / 2)):
-        #     current_value = fourier_abs_values[i]
-        #     # Update max_value and max_index if a greater value is found
-        #     if current_value >= max_value:
-        #         max_value = current_value
-        #         max_index = i
-
-        print(padded_list)
-        sample_average = np.sum(padded_list) / list_size_without_padding
-        padded_list[:list_size_without_padding] -= sample_average
         fourier = np.fft.fft(padded_list)
         fourier_abs_values = np.absolute(fourier)
         bin_plotter.update_bin_plot(fourier_abs_values)
         length_of_padded_list = len(padded_list)
 
-        max_value = float('-inf')
-        max_index = -1
-
+        start_max_value = float('-inf')
+        start_max_index = -1
+        start_range = self.calculate_start_range(sampling_rate, length_of_padded_list)
         # Loop through the first half of the array to find max index of the max value
-        for i in range(12, round(list_size_without_padding/2)):
+        for i in range(start_range, round(list_size_without_padding/2)):
             current_value = fourier_abs_values[i]
             # Update max_value and max_index if a greater value is found
-            if current_value >= max_value:
-                max_value = current_value
-                max_index = i
+            if current_value > start_max_value:
+                start_max_value = current_value
+                start_max_index = i
 
+        max_index = self.max_filter(start_max_index, start_max_value, fourier_abs_values, list_size_without_padding)
+        print(max_index)
         self.frequency = (sampling_rate * max_index) / length_of_padded_list
         self.heart_rate = 60 * self.frequency
-
         return self.heart_rate, self.frequency, None
+        
+    def max_filter(self, start_max_index ,start_max_value, fourier_abs_values, list_size_without_padding):
+        #take 50% of the value of start max value
+        partial_max_value = start_max_value * 0.65
+        # Find the index of the closest value to myval
+        end_max_index = start_max_index
+        #scan over the list of fourier abs values and find the last and calc the avg max index
+        for i in range(start_max_index, round(list_size_without_padding/2)):
+            current_value = fourier_abs_values[i]
+            if current_value >= partial_max_value:
+                end_max_index = i
+        return round((end_max_index + start_max_index)/2)
+
+    def calculate_start_range(self, sampling_rate, length_of_padded_list):
+        freq = 45 / 60
+        start_index = freq * length_of_padded_list / sampling_rate
+        return round(start_index)

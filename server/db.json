@@ -23,7 +23,7 @@
     ],
     "patientsButtons": [
         {
-            "enabled": "no",
+            "enabled": "yes",
             "id": "1"
         },
         {
