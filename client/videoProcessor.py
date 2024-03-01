@@ -12,7 +12,10 @@ class VideoProcessor:
 
     def update_video_feed(self):
         ret, frame = self.capture.read()
-
+        # Get frame size
+        frame_height, frame_width, _ = frame.shape
+        # Print frame size
+        #print("Frame Size: {}x{}".format(frame_width, frame_height))
         if ret:
             frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -20,9 +23,9 @@ class VideoProcessor:
 
             for (x, y, w, h) in faces:
                 if self.flag_for_file_path:  # For recorded video
-                    forehead_x = x + 70
+                    forehead_x = x + 80
                     forehead_y = y + 30
-                    forehead_w = w - 130
+                    forehead_w = w - 170
                     forehead_h = int(h * 0.11)
                 else:                        # For webcam
                     forehead_x = x + 60
@@ -54,6 +57,8 @@ class VideoProcessor:
             pixmap = QPixmap.fromImage(image)
 
             self.video_window.setPixmap(pixmap)
+        else:
+            self.green_channel = None
 
     def get_green_channel(self):
         return self.green_channel

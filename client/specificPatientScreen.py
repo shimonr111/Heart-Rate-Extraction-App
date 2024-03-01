@@ -7,6 +7,7 @@ from PIL import Image
 from hr_plotter import HRPlotter
 from bin_plotter import BINPlotter
 import numpy as np
+import pandas as pd
 
 
 class SpecificPatientScreen(QWidget):
@@ -96,13 +97,12 @@ class SpecificPatientScreen(QWidget):
 
         # Heart rate calculation variables
         self.green_channel = None
-        self.list_green_channel_avg = [0.0] * 512
+        self.list_green_channel_avg = []
         self.previous_list_counter = 0
         self.counter_for_list = 0
         self.heart_rate = 0
         self.frequency = 0
         self.sampling_rate = 0
-
         # Timer to update heart rate label and db every second (set the interval when start the timer)
         self.update_heart_rate_label_and_db_timer = QTimer(self)
         self.update_heart_rate_label_and_db_timer.timeout.connect(self.update_heart_rate)
@@ -119,9 +119,7 @@ class SpecificPatientScreen(QWidget):
         self.hr_plotter = HRPlotter(self.hr_window, self.layout_hr_window)
         # Create an instance of BINPlotter
         self.bin_plotter = BINPlotter(self.bin_window, self.layout_bin_window)
-
         self.flag_for_file_path = False
-
     # Go back to the previous window
     def back_clicked(self):
         if self.capture is not None:
@@ -169,8 +167,8 @@ class SpecificPatientScreen(QWidget):
             self.capture = cv2.VideoCapture(file_path)
 
         self.sampling_rate = self.capture.get(cv2.CAP_PROP_FPS)
-        # Activate update_video_feed() every 1 Millisecond
-        self.timer_for_update_video_feed.start(1)
+        # Activate update_video_feed() every 100 Millisecond
+        self.timer_for_update_video_feed.start(100)
 
     # Update the video feed
     def update_video_feed(self):
@@ -183,12 +181,28 @@ class SpecificPatientScreen(QWidget):
         self.green_channel = video_processor_instance.get_green_channel()
         # Check if self.green_channel is not None before using it
         if self.green_channel is not None:
-            index = self.counter_for_list % 300
+            #index = self.counter_for_list % 300
             # Convert the matrix to a NumPy array
             matrix_array = np.array(self.green_channel)
+            np.set_printoptions(threshold=np.inf)
+            if(self.counter_for_list >= 0 and self.counter_for_list < 15):
+                # Ensure the 'dirForDebug' directory exists, and create it if not
+                output_directory = 'dirForDebug'
+                os.makedirs(output_directory, exist_ok=True)
+
+                # Convert the matrix to a DataFrame
+                df = pd.DataFrame(self.green_channel)
+
+                # Specify the Excel file name with counter suffix and directory
+                excel_file_name = os.path.join(output_directory, f'output64_{self.counter_for_list}.xlsx')
+
+                # Save the DataFrame to an Excel file
+                df.to_excel(excel_file_name, index=False, header=False)
             # Calculate the median along a specific axis (axis= None calculates the overall median)
             median_value = np.median(matrix_array, axis=None)
-            self.list_green_channel_avg[index] = float(median_value)
+            #self.list_green_channel_avg[index] = float(median_value)
+            self.list_green_channel_avg.append(float(median_value))
+            #print(self.counter_for_list)
             self.counter_for_list += 1
         else:
             # Handle the case when self.green_channel is None
@@ -206,7 +220,6 @@ class SpecificPatientScreen(QWidget):
             self.display_video_feed(file_path)  # Displaying the video feed of this recorded video
             self.start_button.setEnabled(True)  # Enable the start button
 
-    # Start button clicked
     def start_clicked(self):
         self.start_button.setEnabled(False)  # Disable the start button
         self.video_combo_box.setEnabled(False)  # Disable the combo box
@@ -251,7 +264,7 @@ class SpecificPatientScreen(QWidget):
 
     # Update the heart rate label
     def update_heart_rate(self):
-        if self.counter_for_list >= 300:
+        if self.counter_for_list >= 600:
             hr_result, freq_result = self.calculate_heart_rate()  # Receive hr & freq from instance of ExtractHeartRate
             self.hr_label.setText("Heart rate: " + str(hr_result))  # Display the hr in the label
             self.freq_label.setText("Frequency: " + str(freq_result))  # Display the frequency in the label
@@ -272,11 +285,11 @@ class SpecificPatientScreen(QWidget):
         from extractHeartRate import ExtractHeartRate
         copied_list = list(self.list_green_channel_avg)
         extract_hr_instance = ExtractHeartRate(self.green_channel)
-        self.sampling_rate = self.counter_for_list - self.previous_list_counter
         self.heart_rate, self.frequency, error_label = extract_hr_instance.calc_hr_process(copied_list,
-                                                                                           10,
-                                                                                           300,
-                                                                                           self.bin_plotter)
+                                                                                           30,
+                                                                                           600,
+                                                                                           self.bin_plotter,
+                                                                                           self.counter_for_list)
         if error_label is not None:  # The face is too close to the camera / far from the camera
             self.face_detect_error_label.setText(str(error_label))  # Display the error label
         else:

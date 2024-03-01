@@ -15,10 +15,10 @@ class BINPlotter:
         self.layout_bin_window.addWidget(self.canvas)
         self.bin_window.setLayout(self.layout_bin_window)
 
-    def update_bin_plot(self, fourier_abs_values):
+    def update_bin_plot(self, image_vector):
         # Plot the data
         self.ax.clear()
-        self.ax.plot(range(len(fourier_abs_values)), fourier_abs_values)
+        self.ax.plot(range(len(image_vector)-1), image_vector[1:len(image_vector)+1])
         self.ax.set_title('FFT Bin')
         # Redraw the canvas
         self.canvas.draw()
