@@ -9,7 +9,6 @@ from bin_plotter import BINPlotter
 import numpy as np
 import pandas as pd
 
-
 class SpecificPatientScreen(QWidget):
     def __init__(self, app, client, patient):
         super().__init__()
@@ -181,7 +180,6 @@ class SpecificPatientScreen(QWidget):
         self.green_channel = video_processor_instance.get_green_channel()
         # Check if self.green_channel is not None before using it
         if self.green_channel is not None:
-            #index = self.counter_for_list % 300
             # Convert the matrix to a NumPy array
             matrix_array = np.array(self.green_channel)
             np.set_printoptions(threshold=np.inf)
@@ -200,9 +198,7 @@ class SpecificPatientScreen(QWidget):
                 df.to_excel(excel_file_name, index=False, header=False)
             # Calculate the median along a specific axis (axis= None calculates the overall median)
             median_value = np.median(matrix_array, axis=None)
-            #self.list_green_channel_avg[index] = float(median_value)
             self.list_green_channel_avg.append(float(median_value))
-            #print(self.counter_for_list)
             self.counter_for_list += 1
         else:
             # Handle the case when self.green_channel is None

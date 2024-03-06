@@ -8,6 +8,8 @@ class VideoProcessor:
         self.capture = capture
         self.video_window = video_window
         self.green_channel = None
+        self.red_channel = None
+        self.blue_channel = None
         self.flag_for_file_path = flag_for_file_path
 
     def update_video_feed(self):
@@ -28,17 +30,18 @@ class VideoProcessor:
                     forehead_w = w - 170
                     forehead_h = int(h * 0.11)
                 else:                        # For webcam
-                    forehead_x = x + 60
-                    forehead_y = y + 10
-                    forehead_w = w - 100
-                    forehead_h = int(h * 0.16)
+                    forehead_x = x + 80
+                    forehead_y = y + 30
+                    forehead_w = w - 170
+                    forehead_h = int(h * 0.11)
 
                 cv2.rectangle(frame, (forehead_x, forehead_y), (forehead_x + forehead_w, forehead_y + forehead_h),
                               (0, 0, 255), 2)
 
                 forehead = frame[forehead_y:forehead_y + forehead_h, forehead_x:forehead_x + forehead_w]
                 self.green_channel = forehead[:, :, 1]
-
+                self.blue_channel = forehead[:, :, 2]
+                self.red_channel = forehead[:, :, 0]
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
             image = QImage(
@@ -59,6 +62,11 @@ class VideoProcessor:
             self.video_window.setPixmap(pixmap)
         else:
             self.green_channel = None
+            self.red_channel = None
+            self.blue_channel = None
 
     def get_green_channel(self):
         return self.green_channel
+
+    def get_channel_inter(self):
+        return ((self.red_channel + self.green_channel + self.blue_channel) / 3)

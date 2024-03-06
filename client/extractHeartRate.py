@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.signal import butter, lfilter, find_peaks
-import cv2
+
 
 def butter_bandpass(lowcut, highcut, fs, order=4):
     nyquist = 0.5 * fs
@@ -118,6 +118,16 @@ class ExtractHeartRate:
 
         # take interval of new values only
         new_list = list(padded_list[counter - 600:counter])
+
+        # Calculate the average
+        average_value = sum(new_list) / len(new_list)
+
+        # Subtract average_value from each element in new_list using a loop
+        for i in range(len(new_list)):
+            new_list[i] -= average_value
+
+        print(new_list)
+
         fourier = np.fft.fft(new_list)
         fourier_abs_values = np.absolute(fourier)
         bin_plotter.update_bin_plot(fourier_abs_values)
@@ -134,12 +144,11 @@ class ExtractHeartRate:
             if current_value > start_max_value:
                 start_max_value = current_value
                 start_max_index = i
-        print(start_max_index)
         self.frequency = (sampling_rate * start_max_index) / length_of_padded_list
         self.heart_rate = self.frequency * 60
         return self.heart_rate, self.frequency, None
 
-    def max_filter(self, start_max_index ,start_max_value, fourier_abs_values, list_size_without_padding):
+    def max_filter(self, start_max_index, start_max_value, fourier_abs_values, list_size_without_padding):
         #take 50% of the value of start max value
         partial_max_value = start_max_value * 0.65
         # Find the index of the closest value to myval
