@@ -9,6 +9,8 @@ from bin_plotter import BINPlotter
 import numpy as np
 import pandas as pd
 
+
+# This Class is responsible for the Specific Patient Screen and its functionality
 class SpecificPatientScreen(QWidget):
     def __init__(self, app, client, patient):
         super().__init__()
@@ -119,6 +121,7 @@ class SpecificPatientScreen(QWidget):
         # Create an instance of BINPlotter
         self.bin_plotter = BINPlotter(self.bin_window, self.layout_bin_window)
         self.flag_for_file_path = False
+
     # Go back to the previous window
     def back_clicked(self):
         if self.capture is not None:
@@ -183,7 +186,7 @@ class SpecificPatientScreen(QWidget):
             # Convert the matrix to a NumPy array
             matrix_array = np.array(self.green_channel)
             np.set_printoptions(threshold=np.inf)
-            if(self.counter_for_list >= 0 and self.counter_for_list < 15):
+            if 0 <= self.counter_for_list < 15:
                 # Ensure the 'dirForDebug' directory exists, and create it if not
                 output_directory = 'dirForDebug'
                 os.makedirs(output_directory, exist_ok=True)

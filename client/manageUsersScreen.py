@@ -3,6 +3,7 @@ from PyQt5.QtCore import QFile, QTextStream
 import json
 
 
+# This Class is responsible for the Manage Menu Screen and its functionality
 class ManageUsersScreen(QWidget):
     def __init__(self, app, client):
         super().__init__()

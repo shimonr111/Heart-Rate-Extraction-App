@@ -3,6 +3,7 @@ from PyQt5.QtGui import QImage, QPixmap
 from PyQt5.QtCore import Qt
 
 
+# This Class is responsible for Video Processor screen and its functionality
 class VideoProcessor:
     def __init__(self, capture, video_window, flag_for_file_path):
         self.capture = capture
@@ -16,8 +17,6 @@ class VideoProcessor:
         ret, frame = self.capture.read()
         # Get frame size
         frame_height, frame_width, _ = frame.shape
-        # Print frame size
-        #print("Frame Size: {}x{}".format(frame_width, frame_height))
         if ret:
             frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
@@ -69,4 +68,4 @@ class VideoProcessor:
         return self.green_channel
 
     def get_channel_inter(self):
-        return ((self.red_channel + self.green_channel + self.blue_channel) / 3)
+        return (self.red_channel + self.green_channel + self.blue_channel) / 3

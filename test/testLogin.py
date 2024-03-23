@@ -5,6 +5,7 @@ from loginScreen import LoginScreen
 from menuScreen import MenuScreen
 
 
+#Test the login screen
 class TestLoginScreen(unittest.TestCase):
     def setUp(self):
         self.app = QApplication([])

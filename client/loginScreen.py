@@ -6,6 +6,7 @@ import json
 import os
 
 
+# This Class is responsible for the Login Screen and its functionality
 class LoginScreen(QWidget):
     def __init__(self, app, client):
         super().__init__()

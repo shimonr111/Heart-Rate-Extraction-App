@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication
 from signupScreen import SignupScreen
 
 
+# Test the signup screen
 class TestSignupScreen(unittest.TestCase):
     def setUp(self):
         self.app = QApplication([])

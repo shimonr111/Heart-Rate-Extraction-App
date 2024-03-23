@@ -2,6 +2,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 
 
+# This Class is responsible for creating the plotter of FFT data
 class BINPlotter:
     def __init__(self, bin_window, layout_bin_window):
         self.bin_window = bin_window

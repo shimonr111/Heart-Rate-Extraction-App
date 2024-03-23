@@ -7,6 +7,7 @@ from PyQt5.QtGui import QImage, QPixmap
 from specificPatientScreen import SpecificPatientScreen
 
 
+# This Class is responsible for the Panel Screen and its functionality
 class PanelScreen(QWidget):
     def __init__(self, app, client):
         super().__init__()

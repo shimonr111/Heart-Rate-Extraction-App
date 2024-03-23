@@ -28,6 +28,7 @@ class HRPlotterStub:
         pass
 
 
+# Test the panel screen
 class TestPanelScreen1(unittest.TestCase):
     def setUp(self):
         self.app = QApplication([])

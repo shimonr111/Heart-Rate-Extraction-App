@@ -5,10 +5,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cf4f882d-5938-47c6-884b-09ab754d91dc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/finalProject.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/finalProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/finalProject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/bin_plotter.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/bin_plotter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_0.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_0.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_1.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_1.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_10.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_10.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_11.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_11.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_12.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_12.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_13.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_13.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_14.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_14.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_2.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_2.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_3.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_3.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_4.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_4.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_5.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_5.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_6.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_6.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_7.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_7.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_8.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_8.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_9.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/dirForDebug/output64_9.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/extractHeartRate.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/extractHeartRate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/hr_plotter.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/hr_plotter.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/loginScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/loginScreen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/manageUsersScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/manageUsersScreen.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/menuScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/menuScreen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/panelScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/panelScreen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/signupScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/signupScreen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/specificPatientScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/specificPatientScreen.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/videoProcessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/videoProcessor.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/db.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/exportRawData.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/exportRawData.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/testExtractHeartRate.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/testExtractHeartRate.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/testLogin.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/testLogin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/testManageUsers.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/testManageUsers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/testMenu.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/testMenu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/testPanel.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/testPanel.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/testSignUp.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/testSignUp.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/testSpecificPatient1.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/testSpecificPatient1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/testSpecificPatient2.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/testSpecificPatient2.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/testVideoProcessor.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/testVideoProcessor.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -42,6 +76,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "git-widget-placeholder": "master",
+    "last_opened_file_path": "C:/Users/shimo/PycharmProjects/finalProject",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PythonContentEntriesConfigurable"
   }
 }]]></component>

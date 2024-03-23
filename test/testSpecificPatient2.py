@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication
 from specificPatientScreen import SpecificPatientScreen
 
 
+# Test the specific patient screen
 class TestSpecificPatientScreenFirst(unittest.TestCase):
     def setUp(self):
         self.app = QApplication([])

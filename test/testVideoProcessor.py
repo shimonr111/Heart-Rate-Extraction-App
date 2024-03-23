@@ -5,6 +5,7 @@ from PyQt5.QtGui import QImage, QPixmap
 import numpy as np
 
 
+# Test the video processor screen
 class TestVideoProcessor(unittest.TestCase):
     def setUp(self):
         # Create a MagicMock for the VideoCapture instance

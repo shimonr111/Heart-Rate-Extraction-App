@@ -5,6 +5,7 @@ import json
 import os
 
 
+# This Class is responsible for the Signup Screen and its functionality
 class SignupScreen(QWidget):
     def __init__(self, app, client):
         super().__init__()

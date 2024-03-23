@@ -6,6 +6,7 @@ from signupScreen import SignupScreen
 from manageUsersScreen import ManageUsersScreen
 
 
+# Test the menu screen
 class TestMenuScreen1(unittest.TestCase):
     def setUp(self):
         self.app = QApplication([])

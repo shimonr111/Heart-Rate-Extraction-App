@@ -1,5 +1,7 @@
 import numpy as np
 
+
+# This Class is responsible for calculating the Heart Rate
 class ExtractHeartRate:
     def __init__(self, green_channel):
         self.green_channel = green_channel

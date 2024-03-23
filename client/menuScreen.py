@@ -5,6 +5,7 @@ from manageUsersScreen import ManageUsersScreen
 from panelScreen import PanelScreen
 
 
+# This Class is responsible for the Menu Screen and its functionality
 class MenuScreen(QWidget):
     def __init__(self, app, client):
         super().__init__()

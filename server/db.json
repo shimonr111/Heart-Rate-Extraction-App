@@ -1,24 +1,19 @@
 {
     "patients": [
         {
-            "firstName": "John",
+            "firstName": "Shimon",
             "id": "1",
-            "lastName": "Cohen"
+            "lastName": "Rubin"
         },
         {
-            "firstName": "Jane",
+            "firstName": "Lior",
             "id": "2",
-            "lastName": "Smith"
+            "lastName": "Guzovsky"
         },
         {
-            "firstName": "leo",
+            "firstName": "Moran",
             "id": "111",
-            "lastName": "messi"
-        },
-        {
-            "firstName": "alexis",
-            "id": "222",
-            "lastName": "sanchez"
+            "lastName": "Guzovsky"
         }
     ],
     "patientsButtons": [
@@ -37,18 +32,18 @@
     ],
     "patientsInTreatment": [
         {
-            "firstName": "John",
-            "lastName": "Doe",
+            "firstName": "Shimon",
+            "lastName": "Rubin",
             "patient": "1"
         },
         {
-            "firstName": "Bibi",
-            "lastName": "Netanyahu",
+            "firstName": "Lior",
+            "lastName": "Guzovsky",
             "patient": "2"
         },
         {
-            "firstName": "alexis",
-            "lastName": "sanchez",
+            "firstName": "Moran",
+            "lastName": "Guzovsky",
             "patient": "3"
         }
     ],

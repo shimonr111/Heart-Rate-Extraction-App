@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication
 from manageUsersScreen import ManageUsersScreen
 
 
+# Test the manage users screen
 class TestManageUsers(unittest.TestCase):
     def setUp(self):
         self.app = QApplication([])

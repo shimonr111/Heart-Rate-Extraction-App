@@ -2,6 +2,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 
 
+# This Class is responsible for creating the plotter of Heart Rate data
 class HRPlotter:
     def __init__(self, hr_window, layout_hr_window):
         self.hr_window = hr_window

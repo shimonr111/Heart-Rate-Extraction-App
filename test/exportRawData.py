@@ -1,6 +1,8 @@
 import ast
 import pandas as pd
 
+# Used this file for debugging our processes, by exports large matrices into csv files
+
 # Specify the path to your text file
 text_file_path = "list.txt"
 
