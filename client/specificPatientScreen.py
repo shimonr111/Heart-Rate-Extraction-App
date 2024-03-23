@@ -283,7 +283,6 @@ class SpecificPatientScreen(QWidget):
         extract_hr_instance = ExtractHeartRate(self.green_channel)
         self.heart_rate, self.frequency, error_label = extract_hr_instance.calc_hr_process(copied_list,
                                                                                            30,
-                                                                                           600,
                                                                                            self.bin_plotter,
                                                                                            self.counter_for_list)
         if error_label is not None:  # The face is too close to the camera / far from the camera
