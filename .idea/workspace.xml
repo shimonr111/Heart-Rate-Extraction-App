@@ -6,26 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="cf4f882d-5938-47c6-884b-09ab754d91dc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_0.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_1.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_10.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_11.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_12.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_13.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_14.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_3.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_4.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_5.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_6.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_7.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_8.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/dirForDebug/output64_9.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/db.json" beforeDir="false" afterPath="$PROJECT_DIR$/server/db.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/exportRawData.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/histTest.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/list.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/readRawDataList.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/specificPatientScreen.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/specificPatientScreen.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,6 +44,11 @@
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PythonContentEntriesConfigurable&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\shimo\PycharmProjects\finalProject\Requirements" />
+    </key>
+  </component>
   <component name="RunManager" selected="Python.client (1)">
     <configuration name="client (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="finalProject" />
@@ -106,9 +92,31 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="server" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="finalProject" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/server" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/server/server.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Python.client (1)" />
+        <item itemvalue="Python.server" />
         <item itemvalue="Python.client" />
       </list>
     </recent_temporary>

@@ -7,7 +7,6 @@ from PIL import Image
 from hr_plotter import HRPlotter
 from bin_plotter import BINPlotter
 import numpy as np
-import pandas as pd
 
 
 # This Class is responsible for the Specific Patient Screen and its functionality
@@ -186,19 +185,6 @@ class SpecificPatientScreen(QWidget):
             # Convert the matrix to a NumPy array
             matrix_array = np.array(self.green_channel)
             np.set_printoptions(threshold=np.inf)
-            if 0 <= self.counter_for_list < 15:
-                # Ensure the 'dirForDebug' directory exists, and create it if not
-                output_directory = 'dirForDebug'
-                os.makedirs(output_directory, exist_ok=True)
-
-                # Convert the matrix to a DataFrame
-                df = pd.DataFrame(self.green_channel)
-
-                # Specify the Excel file name with counter suffix and directory
-                excel_file_name = os.path.join(output_directory, f'output64_{self.counter_for_list}.xlsx')
-
-                # Save the DataFrame to an Excel file
-                df.to_excel(excel_file_name, index=False, header=False)
             # Calculate the median along a specific axis (axis= None calculates the overall median)
             median_value = np.median(matrix_array, axis=None)
             self.list_green_channel_avg.append(float(median_value))
