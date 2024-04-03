@@ -11,28 +11,28 @@ Welcome to Heart Rate Extraction Application, a client-server desktop applicatio
 - Employing Haar cascade classifier to precisely identify eyes in video frames.
 
 **3. Locating the Region of Interest (ROI)**
-Selecting the forehead as the ROI post eye detection, leveraging its suitability for pulse detection.
+- Selecting the forehead as the ROI post eye detection, leveraging its suitability for pulse detection.
 
 **4. Addressing the Green Color Channel**
-Converting ROI to RGB, isolating the green channel, and applying median calculation for noise reduction.
+- Converting ROI to RGB, isolating the green channel, and applying median calculation for noise reduction.
 
 **5. Performing FFT**
-Applying Fast Fourier Transform on the green channel data to transition from time domain to frequency domain, enhancing signal clarity by adjusting sample size.
+- Applying Fast Fourier Transform on the green channel data to transition from time domain to frequency domain, enhancing signal clarity by adjusting sample size.
 
 **6. Calculating Absolute FFT Values**
-Deriving absolute values from the FFT output to process frequency components effectively.
+- Deriving absolute values from the FFT output to process frequency components effectively.
 
 **7. Calculating Heart Rate Thresholds**
-Determining low and high heart rate thresholds to identify potential heart rate frequencies based on FFT analysis.
+- Determining low and high heart rate thresholds to identify potential heart rate frequencies based on FFT analysis.
 
 **8. Searching for the Highest Value in Threshold Range**
-Identifying the peak frequency within the calculated heart rate thresholds indicative of the actual heart rate.
+- Identifying the peak frequency within the calculated heart rate thresholds indicative of the actual heart rate.
 
 **9. Calculating the Heart Rate Frequency**
-Using the peak frequency to calculate the heart rate frequency with a refined formula.
+- Using the peak frequency to calculate the heart rate frequency with a refined formula.
 
 **10. Calculating the Heart Rate**
-Converting heart rate frequency to beats per minute (BPM) to determine the patient's heart rate.
+- Converting heart rate frequency to beats per minute (BPM) to determine the patient's heart rate.
    
 ## References
 Our development process and pipeline for extracting the pulse were influenced and guided by valuable insights from the following articles:
