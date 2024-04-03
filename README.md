@@ -5,10 +5,10 @@ Welcome to Heart Rate Extraction Application, a client-server desktop applicatio
 
 ## Pipeline for Heart Rate Extraction
 **1. Receiving Video Input:**
-Handling both recorded and live video streams at 30 Hz, 1920x1080 resolution.
+- Handling both recorded and live video streams at 30 Hz, 1920x1080 resolution.
 
 **2. Locating the Eyes Using Haar Cascade Classifier**
-Employing Haar cascade classifier to precisely identify eyes in video frames.
+- Employing Haar cascade classifier to precisely identify eyes in video frames.
 
 **3. Locating the Region of Interest (ROI)**
 Selecting the forehead as the ROI post eye detection, leveraging its suitability for pulse detection.
