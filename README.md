@@ -3,6 +3,9 @@
 ## Overview
 Welcome to Heart Rate Extraction Application, a client-server desktop application developed in Python for extracting heart rates from patients using recorded or live video. The application features a user-friendly UI to manage patient and user data, stored efficiently in JSON data files. The heart rate extraction process involves a sophisticated pipeline, outlined below.
 
+## Live Demo
+![](https://github.com/shimonr111/Heart-Rate-Extraction-App/blob/master/Extract_HR_App_Live_Demo.gif)
+
 ## Pipeline for Heart Rate Extraction
 **1. Receiving Video Input:**
 - Handling both recorded and live video streams at 30 Hz, 1920x1080 resolution.
